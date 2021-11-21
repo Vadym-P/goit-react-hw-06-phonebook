@@ -1,12 +1,17 @@
 import { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import shortid from 'shortid';
-import PropTypes from 'prop-types';
+import { addContact } from '../../redux/contacts/contacts-actions';
+import { getContactsList } from '../../redux/contacts/contacts-selectors';
 import s from './Form.module.css';
 
 export default function Form({ onSubmit }) {
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
   const [id, setId] = useState('');
+
+  const dispatch = useDispatch();
+  const contactsList = useSelector(getContactsList);
 
   const handleChange = event => {
     const { name, value } = event.currentTarget;
@@ -28,7 +33,7 @@ export default function Form({ onSubmit }) {
 
   const handleSubmit = event => {
     event.preventDefault();
-    onSubmit({ id, name, number });
+    addContacts({ id, name, number });
     resetForm();
   };
 
@@ -36,6 +41,14 @@ export default function Form({ onSubmit }) {
     setName('');
     setNumber('');
     setId('');
+  };
+
+  const addContacts = ({ id, name, number }) => {
+    contactsList.some(
+      contact => contact.name.toLowerCase() === name.toLowerCase(),
+    )
+      ? alert(`${name} is already in contacts.`)
+      : dispatch(addContact({ id, name, number }));
   };
 
   return (
@@ -74,9 +87,3 @@ export default function Form({ onSubmit }) {
     </form>
   );
 }
-
-Form.propTypes = {
-  name: PropTypes.string,
-  number: PropTypes.string,
-  id: PropTypes.string,
-};
