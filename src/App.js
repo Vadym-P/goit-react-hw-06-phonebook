@@ -4,7 +4,6 @@ import ContactsList from './components/ContactsList';
 import Filter from './components/Filter';
 import s from './App.module.css';
 
-// console.log(addContact('name', '0333333'));
 // [
 //   { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
 //   { id: 'id-2', name: 'Hermione Kline', number: '443-89-12' },
